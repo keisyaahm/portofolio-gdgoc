@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="AI prompts logo">
+  <rect width="128" height="128" rx="24" fill="#111111"/>
+  <circle cx="64" cy="64" r="30" fill="#F4F4F4"/>
+  <path d="M64 26c8.3 0 16.1 2.9 22.1 8.1l-8.5 8.5A21 21 0 0 0 64 42a21.3 21.3 0 0 0 0 42.7A21 21 0 0 0 77.7 85l8.5 8.5A33.7 33.7 0 1 1 64 26Z" fill="#6C63FF"/>
+  <path d="M70 58h20v12H70zm-12 0h12v12H58zm-12 0h12v12H46zm12 26h12v12H58zm12-12h12v12H70z" fill="#ffffff"/>
+</svg>
