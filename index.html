@@ -27,6 +27,12 @@
 
   <nav class="navbar" data-aos="fade-down" data-aos-duration="800">
     <div class="nav-content">
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
       <div class="nav-links">
         <a class="nav-link active" href="#home">Home</a>
         <a class="nav-link" href="#about">About</a>
@@ -37,6 +43,16 @@
       </div>
     </div>
   </nav>
+
+  <div class="mobile-menu">
+    <button class="menu-close" aria-label="Close menu">×</button>
+    <a href="#home" class="mobile-link active">Home</a>
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#tools" class="mobile-link">Tools</a>
+    <a href="#services" class="mobile-link">Services</a>
+    <a href="#projects" class="mobile-link">Projects</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+  </div>
 
   <header class="section hero" id="home">
     <div class="marquee-bg">
@@ -73,9 +89,7 @@
         <div class="skill-rotator">
           I do <span id="changing-skill" style="color: var(--accent);">UI/UX</span>
         </div>
-        
         <a class="btn" href="#about" style="padding: 16px 36px;">Let's Work Together!</a>
-        
         <p class="scroll-down">✦ SCROLL DOWN ✦ AND KNOW ME BETTER</p>
       </div>
     </div>
@@ -395,29 +409,31 @@
     const customCursor = document.querySelector('.custom-cursor');
     const projectWrappers = document.querySelectorAll('.project-img-wrapper');
     
-    gsap.set(customCursor, { xPercent: -50, yPercent: -50, scale: 0, autoAlpha: 0 });
-    
-    window.addEventListener('mousemove', (e) => {
-      gsap.to(customCursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
-    });
+    if (window.innerWidth > 768) {
+      gsap.set(customCursor, { xPercent: -50, yPercent: -50, scale: 0, autoAlpha: 0 });
+      
+      window.addEventListener('mousemove', (e) => {
+        gsap.to(customCursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
+      });
 
-    projectWrappers.forEach(wrapper => {
-      const img = wrapper.querySelector('img');
-      wrapper.addEventListener('mouseenter', () => {
-        gsap.to(customCursor, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(1.5)" });
-        gsap.to(img, { scale: 1.08, opacity: 0.6, duration: 0.4 }); 
+      projectWrappers.forEach(wrapper => {
+        const img = wrapper.querySelector('img');
+        wrapper.addEventListener('mouseenter', () => {
+          gsap.to(customCursor, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(1.5)" });
+          gsap.to(img, { scale: 1.08, opacity: 0.6, duration: 0.4 }); 
+        });
+        wrapper.addEventListener('mouseleave', () => {
+          gsap.to(customCursor, { scale: 0, autoAlpha: 0, duration: 0.3, ease: "power2.in" });
+          gsap.to(img, { scale: 1, opacity: 1, x: 0, y: 0, duration: 0.4 }); 
+        });
+        wrapper.addEventListener('mousemove', (e) => {
+          const rect = wrapper.getBoundingClientRect();
+          const xPos = (e.clientX - rect.left - rect.width / 2) / 15; 
+          const yPos = (e.clientY - rect.top - rect.height / 2) / 15;
+          gsap.to(img, { x: xPos, y: yPos, duration: 0.2, ease: "power2.out" });
+        });
       });
-      wrapper.addEventListener('mouseleave', () => {
-        gsap.to(customCursor, { scale: 0, autoAlpha: 0, duration: 0.3, ease: "power2.in" });
-        gsap.to(img, { scale: 1, opacity: 1, x: 0, y: 0, duration: 0.4 }); 
-      });
-      wrapper.addEventListener('mousemove', (e) => {
-        const rect = wrapper.getBoundingClientRect();
-        const xPos = (e.clientX - rect.left - rect.width / 2) / 15; 
-        const yPos = (e.clientY - rect.top - rect.height / 2) / 15;
-        gsap.to(img, { x: xPos, y: yPos, duration: 0.2, ease: "power2.out" });
-      });
-    });
+    }
 
     gsap.utils.toArray('.float-letter').forEach(layer => {
       const depth = layer.getAttribute('data-speed');
@@ -431,8 +447,31 @@
       });
     });
 
+    const menuToggle = document.querySelector('.menu-toggle');
+    const menuClose = document.querySelector('.menu-close');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    menuClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
     const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.nav-link');
+    
     window.addEventListener('scroll', () => {
       let current = '';
       sections.forEach(section => {
@@ -442,6 +481,7 @@
           current = section.getAttribute('id');
         }
       });
+      
       navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href').includes(current)) {
