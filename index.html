@@ -453,22 +453,24 @@
     const mobileMenu = document.querySelector('.mobile-menu');
     const mobileLinks = document.querySelectorAll('.mobile-link');
 
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
+    if (menuToggle && mobileMenu && menuClose) {
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
 
-    menuClose.addEventListener('click', () => {
-      mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
+      menuClose.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
         document.body.style.overflow = '';
       });
-    });
+
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+    }
 
     const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.nav-link');
