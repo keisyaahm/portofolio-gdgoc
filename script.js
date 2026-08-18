@@ -1,5 +1,4 @@
-  
-    const lenis = new Lenis({
+const lenis = new Lenis({
   duration: 1.2,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   direction: 'vertical',
@@ -70,22 +69,25 @@ gsap.utils.toArray('.float-letter').forEach(layer => {
 });
 
 const menuToggle = document.querySelector('.menu-toggle');
-const mobileMenu = document.querySelector('.mobile-menu');
 const menuClose = document.querySelector('.menu-close');
+const mobileMenu = document.querySelector('.mobile-menu');
 const mobileLinks = document.querySelectorAll('.mobile-link');
 
-if (menuToggle && mobileMenu) {
+if (menuToggle && mobileMenu && menuClose) {
   menuToggle.addEventListener('click', () => {
     mobileMenu.classList.add('open');
+    document.body.style.overflow = 'hidden';
   });
 
   menuClose.addEventListener('click', () => {
     mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
   });
 
   mobileLinks.forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
     });
   });
 }
